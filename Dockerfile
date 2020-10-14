@@ -36,7 +36,6 @@ RUN conda install -y -c pytorch \
     "torchvision=0.5.0=py37_cu100" \
     && conda clean -ya
 
-
 # Install Jupyter Notebook
 RUN conda install -y -c conda-forge jupyterlab
 
@@ -63,3 +62,10 @@ WORKDIR /workingdir
 
 #make port 8888 available from outside, just in case the container is supposed to run jupyter notebooks
 EXPOSE 8888
+
+# add application ressources to container
+ADD . /workingdir
+
+# run app
+#CMD ["python", "datasets/ds_natural_images.py"]
+#CMD ["python", "run_training.py"]

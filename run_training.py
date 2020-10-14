@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 from os.path import isdir, join
 
 import torch
@@ -8,7 +9,7 @@ from DLBio.helpers import check_mkdir, copy_source, save_options
 from DLBio.pt_train_printer import Printer
 from DLBio.pytorch_helpers import get_device, get_num_params
 
-import config
+import user_config as config
 from train_interfaces import get_interface
 
 from datasets.data_getter import get_data_loaders
@@ -62,6 +63,8 @@ def run(options):
     pt_training.set_random_seed(options.seed)
 
     folder = join(config.EXP_FOLDER, options.folder)
+    folder = folder.replace('/', os.sep)
+    folder = folder.replace('\\', os.sep)
 
     if not options.do_overwrite:
         if abort_due_to_overwrite_safety(folder):

@@ -1,9 +1,10 @@
-USER = 'philipp'
+USER = 'christian'
 
-if USER == 'philipp':
+if USER == 'christian':
     DO_NOT_COPY = []
     # dataset
     NAT_IM_BASE = 'data/natural_images'
+    IMFX_IM_BASE = 'data/immunfix_images'
 
     EXP_FOLDER = './experiments'
 
