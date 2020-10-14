@@ -123,10 +123,13 @@ def create_splits(num_splits=5, split_perc=.8):
     images_ = _get_images_sorted_by_class()
     
     # calculate class distribution
-    class_dist = np.zeros(len(images_))
+    class_counts = [0] * len(images_)
     for key in images_:
-        class_dist[key] = len(images_[key])
-    class_dist /= sum(class_dist)
+        class_counts[key] = len(images_[key])
+    N = sum(class_counts)
+    class_weights = [0.] * len(images_)
+    for i in range(len(class_weights)):
+        class_weights[i] = N / float(class_counts[i])
 
     for i in range(num_splits):
         train_images = []
@@ -140,7 +143,7 @@ def create_splits(num_splits=5, split_perc=.8):
 
             # grab images without replacement
             tmp_train = random.sample(val, n_train)
-            tmp_weights = [class_dist[key]] * n_train
+            tmp_weights = [class_weights[key]] * n_train
             tmp_test = list(set(val) - set(tmp_train))
 
             train_images += tmp_train
