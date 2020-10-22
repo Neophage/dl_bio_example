@@ -4,3 +4,4 @@ __pycache__/*
 debug.png
 experiments/*
 pytorch-lamb
+saved_models

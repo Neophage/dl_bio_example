@@ -39,6 +39,37 @@ def get_dataloader(is_train, batch_size, split_index=0):
     else:
         dataset = ImfxImDataset(split['test'], _get_data_aug(is_train))
         return DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    
+def get_test_dataloader(subset='positive', split_index=0):
+    if subset == 'full':
+        all_images = search_in_all_subfolders(r'(.*)_(\d+).jpg', config.IMFX_IM_BASE)
+        dataset = ImfxImDataset(all_images, _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
+        
+    elif subset == 'train':
+        split = _find_split_file(int(split_index))
+        dataset = ImfxImDataset(split['train'], _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
+        
+    elif subset == 'val':
+        split = _find_split_file(int(split_index))
+        dataset = ImfxImDataset(split['test'], _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
+
+    elif subset == 'positive':
+        all_images = search_in_all_subfolders(r'(.*)_(\d+).jpg', config.IMFX_TEST_BASE + '/positive')
+        dataset = ImfxImDataset(all_images, _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
+        
+    elif subset == 'numbers':
+        all_images = search_in_all_subfolders(r'(.*)_(\d+).jpg', config.IMFX_TEST_BASE + '/numbers')
+        dataset = ImfxImDataset(all_images, _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
+    
+    elif subset == 'bands':
+        all_images = search_in_all_subfolders(r'(.*)_(\d+).jpg', config.IMFX_TEST_BASE + '/bands')
+        dataset = ImfxImDataset(all_images, _get_data_aug(False))
+        return DataLoader(dataset, shuffle=False)
 
 
 def _get_data_aug(is_train, crop_size=224):

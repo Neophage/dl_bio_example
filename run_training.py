@@ -29,8 +29,8 @@ def get_options():
     parser.add_argument('--device', type=int, default=None)
     parser.add_argument('--seed', type=int, default=0)
 
-    parser.add_argument('--in_dim', type=int, default=3)
-    parser.add_argument('--out_dim', type=int, default=8)
+    parser.add_argument('--in_dim', type=int, default=config.in_dim)
+    parser.add_argument('--out_dim', type=int, default=config.out_dim)
     parser.add_argument('--model_type', type=str, default=config.MT)
     parser.add_argument('--model_path', type=str, default=None)
     parser.add_argument('--folder', type=str, default='_debug')
@@ -43,7 +43,7 @@ def get_options():
 
     # dataset
     parser.add_argument('--split_index', type=int, default=0)
-    parser.add_argument('--dataset', type=str, default='nat_im')
+    parser.add_argument('--dataset', type=str, default=config.dataset)
 
     # model saving
     parser.add_argument('--sv_int', type=int, default=0)
@@ -87,7 +87,7 @@ def run(options):
 
 
 def _train_model(options, folder, device):
-    model_out = join(folder, 'model.pt')
+    model_out = join(folder, 'model_' + options.model_type + '_' + options.dataset + '.pt')
     log_file = join(folder, 'log.json')
     check_mkdir(log_file)
 
